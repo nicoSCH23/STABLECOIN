@@ -55,6 +55,7 @@ GEM
     builder (3.2.3)
     byebug (10.0.2)
     coderay (1.1.2)
+    concurrency (0.2.0)
     concurrent-ruby (1.1.3)
     crass (1.0.4)
     devise (4.5.0)
@@ -205,6 +206,7 @@ DEPENDENCIES
   autoprefixer-rails
   bootsnap
   bootstrap-sass (~> 3.3)
+  concurrency
   devise
   dotenv-rails
   font-awesome-sass (~> 5.0.9)

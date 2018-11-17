@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Network Transactions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Amount</th>
+      <th>Currency</th>
+      <th>Rate</th>
+      <th>Type</th>
+      <th>STABLES</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @transactions.each do |transaction| %>
+      <tr>
+        <td><%= transaction.user_fiat_account.user.name %></td>
+        <td><%= transaction.amount_fiat %></td>
+        <td><%= transaction.currency_code %></td>
+        <td><%= transaction.exchange_rate %></td>
+        <td><%= transaction.typetr %></td>
+        <td><%= transaction.amount_stable %></td>
+        <td><%= link_to 'Show', transaction %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Transaction', new_transaction_path %>

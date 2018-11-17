@@ -1,0 +1,25 @@
+
+<%= simple_form_for(@transaction) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+<div class="current-accounts">
+  <h2>Your existing accounts</h2>
+  <% UserFiatAccount.where(user: current_user).each do |account| %>
+  <%= account.currency_code %> <%= account.amount %> <br>
+  <% end %>
+</div>
+  <div class="form-inputs">
+
+    <%= f.label :Currency %>
+    <%= f.text_field :currency_code %>
+    <%= f.label :Amount %>
+    <%= f.text_field :amount_fiat %>
+    <%= f.label "Type of Transaction" %>
+    <%= f.collection_radio_buttons :typetr, [["BUY", 'BUY'] ,["SELL", 'SELL']], :first, :last
+ %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

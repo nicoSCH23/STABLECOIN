@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>User Stable Accounts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_stable_accounts.each do |user_stable_account| %>
+      <tr>
+        <td><%= link_to 'Show', user_stable_account %></td>
+        <td><%= link_to 'Edit', edit_user_stable_account_path(user_stable_account) %></td>
+        <td><%= link_to 'Destroy', user_stable_account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User Stable Account', new_user_stable_account_path %>

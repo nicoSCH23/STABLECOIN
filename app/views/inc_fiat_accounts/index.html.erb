@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Inc Fiat Accounts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @inc_fiat_accounts.each do |inc_fiat_account| %>
+      <tr>
+        <td><%= link_to 'Show', inc_fiat_account %></td>
+        <td><%= link_to 'Edit', edit_inc_fiat_account_path(inc_fiat_account) %></td>
+        <td><%= link_to 'Destroy', inc_fiat_account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Inc Fiat Account', new_inc_fiat_account_path %>

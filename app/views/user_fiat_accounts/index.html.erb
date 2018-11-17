@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>User Fiat Accounts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account ID</th>
+      <th>Currency</th>
+      <th>Amount</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_fiat_accounts.each do |user_fiat_account| %>
+      <tr>
+        <td><%= user_fiat_account.id %></td>
+        <td><%= user_fiat_account.currency_code %></td>
+        <td><%= user_fiat_account.amount %></td>
+        <td><%= link_to 'Show', user_fiat_account %></td>
+        <td><%= link_to 'Edit', edit_user_fiat_account_path(user_fiat_account) %></td>
+        <td><%= link_to 'Destroy', user_fiat_account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User Fiat Account', new_user_fiat_account_path %>

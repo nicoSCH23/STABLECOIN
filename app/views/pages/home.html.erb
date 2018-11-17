@@ -1,2 +1,57 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<p id="notice"><%= notice %></p>
+<% currency_pref = current_user.present? ? current_user.currency_pref : "USD" %>
+<h2>Stable Price in <%= currency_pref %>: <%= "%g" % ("%.4f" % (Transaction.getprice(currency_pref))) %></h2>
+<h2>STABLE Bank Accounts Monitoring</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Currency</th>
+      <th>Amount</th>
+      <th>Bank</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% IncFiatAccount.all.each do |account| %>
+      <tr>
+        <td><%= account.currency_code %></td>
+        <td><%= "%g" % ("%.2f" % account.amount) %></td>
+        <td><%= account.bank %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Last Network Transactions</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Amount</th>
+      <th>Currency</th>
+      <th>Rate</th>
+      <th>Type</th>
+      <th>STABLES</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% Transaction.all.each do |transaction| %>
+      <tr>
+        <td><%= transaction.user_fiat_account.user.name %></td>
+        <td><%= "%g" % ("%.2f" % transaction.amount_fiat) %></td>
+        <td><%= transaction.currency_code %></td>
+        <td><%= "%g" % ("%.4f" % transaction.exchange_rate) %></td>
+        <td><%= transaction.typetr %></td>
+        <td><%= "%g" % ("%.2f" % transaction.amount_stable) %></td>
+        <td><%= link_to 'Show', transaction %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Transaction', new_transaction_path, class: "btn-block" %>
