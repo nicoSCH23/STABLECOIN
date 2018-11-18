@@ -70,6 +70,9 @@ GEM
       dotenv (= 2.5.0)
       railties (>= 3.2, < 6.0)
     erubi (1.7.1)
+    eu_central_bank (0.3.8)
+      money (>= 6.0.1)
+      nokogiri
     execjs (2.7.0)
     ffi (1.9.25)
     font-awesome-sass (5.0.13)
@@ -98,6 +101,8 @@ GEM
     mini_mime (1.0.1)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
+    money (6.13.1)
+      i18n (>= 0.6.4, <= 2)
     msgpack (1.2.4)
     multi_json (1.13.1)
     nio4r (2.3.1)
@@ -213,6 +218,7 @@ DEPENDENCIES
   concurrency
   devise
   dotenv-rails
+  eu_central_bank
   font-awesome-sass (~> 5.0.9)
   groupdate
   jbuilder (~> 2.0)

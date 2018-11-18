@@ -20,7 +20,9 @@ class Transaction < ApplicationRecord
       account_value = fiat_account.amount
     else
       begin
+      puts "for currency: #{fiat_account.currency_code}"
       account_value = Concurrency.convert(fiat_account.amount, fiat_account.currency_code, currency_code)
+      puts "account value=#{account_value}"
       rescue
         puts "I AM BEING RESCUED"
         retry

@@ -1,6 +1,7 @@
  <br>
  <div class="container">
-  <% currency_pref = current_user.present? ? (current_user.currency_pref.present? ? current_user.currency_pref : "USD") : "USD" %>
+  <% @
+  currency_pref = current_user.present? ? (current_user.currency_pref.present? ? current_user.currency_pref : "USD") : "USD" %>
 
   <div class="row price-info">
     <div class="card-presentation col-xs-offset-2 col-xs-8 col-sm-offset-1 col-sm-6">
@@ -9,7 +10,7 @@
       </div>
       <div class="card-content">
         <h4>1 STABLE is now</h4>
-        <div class="highlited-amount"><strong> <h3><%= "%g" % ("%.4f" % (Transaction.getprice(currency_pref))) %> <%= currency_pref %> </h3></strong> </div>
+        <div class="highlited-amount"><strong> <h3><%= "%g" % ("%.4f" % (Transaction.getprice(@currency_pref))) %> <%= @currency_pref %> </h3></strong> </div>
         <h4>Total amount of STABLE</h4>
         <div class="highlited-amount"><strong> <h3><%= number_to_currency_br(UserStableAccount.all.sum(:amount)) %></h3></strong></div>
       </div>
