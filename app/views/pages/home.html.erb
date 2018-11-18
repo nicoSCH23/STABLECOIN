@@ -3,12 +3,14 @@
   <% currency_pref = current_user.present? ? (current_user.currency_pref.present? ? current_user.currency_pref : "USD") : "USD" %>
 
   <div class="row price-info">
-    <div class="price-card card-presentation col-xs-offset-2 col-xs-8 col-sm-offset-1 col-sm-6">
+    <div class="card-presentation col-xs-offset-2 col-xs-8 col-sm-offset-1 col-sm-6">
       <div class="card-header">
         <h4>STABLE</h4>
       </div>
-      <h4>Price of 1 STABLE in <%= currency_pref %>: <strong> <%= "%g" % ("%.4f" % (Transaction.getprice(currency_pref))) %></strong></h4>
-      <h4>Total amount of STABLE in circulation: <strong><%= number_to_currency_br(UserStableAccount.all.sum(:amount)) %></strong></h4>
+      <div class="card-content">
+        <h4>Price of 1 STABLE in <%= currency_pref %>: <strong> <%= "%g" % ("%.4f" % (Transaction.getprice(currency_pref))) %></strong></h4>
+        <h4>Total amount of STABLE in circulation: <strong><%= number_to_currency_br(UserStableAccount.all.sum(:amount)) %></strong></h4>
+      </div>
     </div>
   </div>
 
@@ -17,31 +19,36 @@
       <div class="card-header">
         <h4>Currency repartition in %</h4>
       </div>
-      <%= pie_chart charts_cur_transactions_path %>
+      <div class="card-content">
+        <%= pie_chart charts_cur_transactions_path %>
+      </div>
     </div>
+
     <div class="col-xs-12 col-sm-6 container card-presentation">
       <div class="card-header">
         <h4>STABLE Bank Accounts Monitoring</h4>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th class="t-left">Bank</th>
-            <th>Amount</th>
-            <th>Currency</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% IncFiatAccount.all.each do |account| %>
+      <div class="card-content">
+        <table>
+          <thead>
             <tr>
-              <td class="t-left"><%= account.bank %></td>
-              <td><%= number_to_currency_net(account.amount) %></td>
-              <td><%= account.currency_code %></td>
+              <th class="t-left">Bank</th>
+              <th>Amount</th>
+              <th>Currency</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            <% IncFiatAccount.all.each do |account| %>
+              <tr>
+                <td class="t-left"><%= account.bank %></td>
+                <td><%= number_to_currency_net(account.amount) %></td>
+                <td><%= account.currency_code %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -50,7 +57,9 @@
       <div class="card-header">
         <h4>Number of Transaction</h4>
       </div>
-      <%= line_chart charts_new_transactions_path %>
+      <div class="card-content">
+        <%= line_chart charts_new_transactions_path %>
+      </div>
     </div>
     <div class="col-xs-12 col-sm-6 container card-presentation">
       <div class="card-header">

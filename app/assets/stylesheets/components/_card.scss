@@ -21,6 +21,7 @@
 }
 
 .card-content {
+  padding: 20px;
   display: flex;
   flex-direction: column;
   background: white;
@@ -29,12 +30,16 @@
 }
 
 .card-header {
-  border: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
   background: #f9fafc;
   width: 100%;
-  text-align: center;
+  text-align: left;
+  padding-left: 18px;
+  h4 {
+    font-weight: bold;
+  }
 }
 
 .card-presentation.price-card {
