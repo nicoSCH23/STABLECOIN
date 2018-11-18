@@ -62,6 +62,7 @@ class TransactionsController < ApplicationController
   # end
 
   def buy_stable(fiat_amount, options = {})
+    binding.pry
     @user = current_user
     fiat_amount = fiat_amount.to_f
     currency_code = options[:currency_code]

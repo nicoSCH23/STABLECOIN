@@ -1,0 +1,15 @@
+
+<%= simple_form_for(@transaction) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+
+    <%= f.label :Amount %>
+    <%= f.text_field :amount_stable %>
+    <%= f.input :typetr, as: :hidden, :required => true, :input_html => { :value => "SELL" } %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "SELL STABLES", class: "btn-add btn-small btn-block" %>
+  </div>
+<% end %>

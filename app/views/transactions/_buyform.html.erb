@@ -9,11 +9,10 @@
     %>
     <%= f.label :Amount %>
     <%= f.text_field :amount_fiat %>
-    <%= f.label "Type of Transaction" %>
-
+    <%= f.input :typetr, as: :hidden, :required => true, :input_html => { :value => "BUY" } %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, locals[:typetr], class: "btn-add btn-small btn-block" %>
+    <%= f.button :submit, "BUY STABLES", class: "btn-add btn-small btn-block" %>
   </div>
 <% end %>

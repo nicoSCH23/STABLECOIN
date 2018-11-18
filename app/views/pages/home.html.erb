@@ -92,7 +92,7 @@
           <%= account.currency_code %> <%= account.amount %> <br>
           <% end %>
         </div>
-        <%= render 'transactions/form', transaction: @transaction, locals: {typetr: "BUY"} %>
+        <%= render 'transactions/buyform', transaction: @transaction, locals: {typetr: "BUY"} %>
       </div>
 
       <div class="row">
@@ -101,7 +101,7 @@
           <% stable_account = UserStableAccount.where(user: current_user)[0] %>
           <p>STABLE</p> <%= stable_account.amount %> <br>
         </div>
-        <%= render 'transactions/form', transaction: @transaction, locals: {typetr: "SELL"} %>
+        <%= render 'transactions/sellform', transaction: @transaction, locals: {typetr: "SELL"} %>
       </div>
     </div>
   </div>
