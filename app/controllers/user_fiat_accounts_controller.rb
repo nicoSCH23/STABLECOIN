@@ -31,7 +31,8 @@ class UserFiatAccountsController < ApplicationController
 
     respond_to do |format|
       if @user_fiat_account.save
-        format.html { redirect_to @user_fiat_account, notice: 'User fiat account was successfully created.' }
+        UserStableAccount.create(user: current_user, amount: 0.0) if UserStableAccount.where(user: current_user).empty?
+        format.html { redirect_to home_path, notice: 'User fiat account was successfully created.' }
         format.json { render :show, status: :created, location: @user_fiat_account }
       else
         format.html { render :new }

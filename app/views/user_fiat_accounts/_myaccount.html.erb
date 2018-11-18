@@ -1,0 +1,38 @@
+  <div class="row my-account-section">
+    <h2 class="btn my-account-dividor btn-block">Your Accounts</h2>
+    <div class="container accounts-recap card-presentation col-xs-offset-2 col-xs-8 col-sm-offset-1 col-sm-6">
+      <div class="row">
+        <div class="current-accounts">
+          <h2>Your FIAT accounts</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Amount</th>
+                <th>Currency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% UserFiatAccount.where(user: current_user).each do |account| %>
+                <tr>
+                  <td> <%= number_to_currency_br(account.amount) %></td>
+                  <td class="t-left"> <%= account.currency_code %> </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="transaction-fiat">
+          <%= render 'transactions/buyform', transaction: @transaction, locals: {typetr: "BUY"} %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="current-accounts">
+          <h2>Your STABLE account</h2>
+          <% stable_account = UserStableAccount.where(user: current_user)[0] %>
+          <%= "#{number_to_currency_br(stable_account.amount)} STABLE" %>
+        </div>
+        <%= render 'transactions/sellform', transaction: @transaction, locals: {typetr: "SELL"} %>
+      </div>
+    </div>
+  </div>

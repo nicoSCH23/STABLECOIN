@@ -82,29 +82,12 @@
   </div>
 
   <br>
-  <div class="row my-account-section">
-    <h2 class="btn my-account-dividor btn-block">Your Accounts</h2>
-    <div class="container accounts-recap card-presentation col-xs-offset-2 col-xs-8 col-sm-offset-1 col-sm-6">
-      <div class="row">
-        <div class="current-accounts">
-          <h2>Your FIAT accounts</h2>
-          <% UserFiatAccount.where(user: current_user).each do |account| %>
-          <%= account.currency_code %> <%= account.amount %> <br>
-          <% end %>
-        </div>
-        <div class="transaction-fiat">
-          <%= render 'transactions/buyform', transaction: @transaction, locals: {typetr: "BUY"} %>
-        </div>
-      </div>
+  <% if UserFiatAccount.where(user: current_user).empty? %>
+    <%= render :partial => "user_fiat_accounts/form", user_fiat_account: @user_fiat_account %>
+  <% elsif user_signed_in? %>
+    <%= render :partial => "user_fiat_accounts/myaccount" %>
+  <% else %>
+    <%= link_to t(".sign_in", default: "Login"), new_user_session_path, class: "navbar-wagon-item navbar-wagon-link" %>
+  <% end %>
 
-      <div class="row">
-        <div class="current-accounts">
-          <h2>Your STABLE account</h2>
-          <% stable_account = UserStableAccount.where(user: current_user)[0] %>
-          <p>STABLE</p> <%= stable_account.amount %> <br>
-        </div>
-        <%= render 'transactions/sellform', transaction: @transaction, locals: {typetr: "SELL"} %>
-      </div>
-    </div>
-  </div>
 </div>

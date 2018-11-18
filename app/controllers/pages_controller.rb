@@ -3,5 +3,6 @@ class PagesController < ApplicationController
 
   def home
     @transaction = Transaction.new
+    @user_fiat_account = UserFiatAccount.new
   end
 end
