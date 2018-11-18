@@ -18,7 +18,7 @@
                 <% UserFiatAccount.where(user: current_user).each do |account| %>
                   <tr>
                     <td> <%= number_to_currency_br(account.amount) %></td>
-                    <td class="t-left"> <%= account.currency_code %> </td>
+                    <td> <%= account.currency_code %> </td>
                   </tr>
                 <% end %>
               </tbody>
@@ -39,6 +39,7 @@
             <div class="stable-account">
             <%= "#{number_to_currency_br(stable_account.amount)} STABLE" %>
             </div>
+            <br>
             <h4>Make a Transfer</h4>
             <%= render 'transactions/sellform', transaction: @transaction, locals: {typetr: "SELL"} %>
           </div>
