@@ -10,15 +10,15 @@
             <table>
               <thead>
                 <tr>
-                  <th>Amount</th>
-                  <th>Currency</th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 <% UserFiatAccount.where(user: current_user).each do |account| %>
                   <tr>
-                    <td> <%= number_to_currency_br(account.amount) %></td>
-                    <td> <%= account.currency_code %> </td>
+                    <td class="highlited-amount fiat-currency-display"><h3><%= number_to_currency_br(account.amount) %></h3></td>
+                    <td class="highlited-amount fiat-currency-display"><h3><%= account.currency_code %></h3></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -36,8 +36,8 @@
           </div>
           <% stable_account = UserStableAccount.where(user: current_user)[0] %>
           <div class="card-content">
-            <div class="stable-account">
-            <%= "#{number_to_currency_br(stable_account.amount)} STABLE" %>
+            <div class="highlited-amount">
+            <h3><%= "#{number_to_currency_br(stable_account.amount)} STABLE" %></h3>
             </div>
             <br>
             <h4>Make a Transfer</h4>

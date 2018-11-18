@@ -8,8 +8,10 @@
         <h4>STABLE</h4>
       </div>
       <div class="card-content">
-        <h4>Price of 1 STABLE in <%= currency_pref %>: <strong> <%= "%g" % ("%.4f" % (Transaction.getprice(currency_pref))) %></strong></h4>
-        <h4>Total amount of STABLE in circulation: <strong><%= number_to_currency_br(UserStableAccount.all.sum(:amount)) %></strong></h4>
+        <h4>1 STABLE is now</h4>
+        <div class="highlited-amount"><strong> <h3><%= "%g" % ("%.4f" % (Transaction.getprice(currency_pref))) %> <%= currency_pref %> </h3></strong> </div>
+        <h4>Total amount of STABLE</h4>
+        <div class="highlited-amount"><strong> <h3><%= number_to_currency_br(UserStableAccount.all.sum(:amount)) %></h3></strong></div>
       </div>
     </div>
   </div>

@@ -41,6 +41,18 @@ h1, h2, h3, h4 {
   }
 }
 
+.highlited-amount {
+  padding: 10px;
+  h3 {
+    font-weight: 900;
+    color: #5aa0cf;
+  }
+}
+
+.fiat-currency-display {
+  margin: 0px;
+}
+
 .card-presentation.price-card {
   padding: 20px;
 }
