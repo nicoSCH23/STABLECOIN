@@ -5,9 +5,9 @@
   <div class="form-inputs">
 
     <% @fiat_accounts = UserFiatAccount.where(user: current_user).map{|acc| acc.currency_code} %>
-    <%= f.input :currency_code, :label => false, as: :radio_buttons, collection: @fiat_accounts, checked: @fiat_accounts[0]
-    %>
     <%= f.text_field :amount_fiat, placeholder: "Amount" %>
+    <%= f.input :currency_code, :label => false, as: :select, collection: @fiat_accounts, selected: @fiat_accounts[0]
+    %>
     <%= f.input :typetr, as: :hidden, :required => true, :input_html => { :value => "BUY" } %>
   </div>
 

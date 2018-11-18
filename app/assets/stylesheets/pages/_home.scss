@@ -1,13 +1,27 @@
 // Specific CSS for your home-page
 body {
-  background-color: #6FD18A;
+  background: #f7f9fe; /* fallback for old browsers */
 }
 
 table {
     text-align: right;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 th {
     text-align: center;
+}
+
+h1, h2, h3, h4 {
+  font-family: Montserrat, sans-serif;
+}
+
+.form-control {
+  width: auto;
+}
+
+.stable-account {
+  padding-top: 30px;
 }
 .t-left{
   text-align: left;
@@ -27,13 +41,17 @@ th {
   }
 }
 
+.card-presentation.price-card {
+  padding: 20px;
+}
+
 .accounts-recap {
   flex-direction: row;
   width: 100%;
 }
 
 .my-account-dividor {
-  background: #049986;
+  background: #0499FA;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   font-family: Montserrat, sans-serif;

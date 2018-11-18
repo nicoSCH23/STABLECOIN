@@ -3,7 +3,7 @@
   <%= link_to home_path, class: "navbar-wagon-brand" do %>
     <%= image_tag "logo.png", height: 50 %>
   <% end %>
-  <h2>STABLE</h2>
+  <h1 class="navbar-title">STABLE</h1>
 
   <!-- Right Navigation -->
   <div class="navbar-wagon-right hidden-xs hidden-sm">
@@ -11,7 +11,7 @@
     <% if user_signed_in? %>
 
       <!-- Links when logged in -->
-      <%= link_to destroy_user_session_path, method: :delete do %>
+      <%= link_to destroy_user_session_path, class: "log-out", method: :delete do %>
         <i class="fa fa-sign-out"></i>  <%= t(".sign_out", default: "Log out") %>
       <% end %>
 
