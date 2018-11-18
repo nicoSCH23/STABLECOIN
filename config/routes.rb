@@ -12,6 +12,13 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :charts do
+    get "new-transactions"
+  end
+  namespace :charts do
+    get "cur-transactions"
+  end
+
   # get "/onboarding", to: "pages#onboarding"
   # get "/redirect_preferences", to: "pages#redirect_preferences"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -1,0 +1,22 @@
+.price-info {
+  display: flex;
+  justify-content: center;
+}
+.card-presentation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  width: 540px;
+}
+
+.card-presentation.price-card {
+    align-items: flex-start;
+    width: max-content;
+  }

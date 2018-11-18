@@ -24,7 +24,7 @@ class TransactionsController < ApplicationController
   # POST /transactions.json
   def create
     typetr = transaction_params[:typetr]
-    TransactionsController.buy_stable(transaction_params[:amount_fiat], options = {currency_code: transaction_params[:currency_code]}) if typetr == "BUY"
+    buy_stable(transaction_params[:amount_fiat], options = {currency_code: transaction_params[:currency_code]}) if typetr == "BUY"
     # respond_to do |format|
     #   if @transaction.save
     #     format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
@@ -36,33 +36,33 @@ class TransactionsController < ApplicationController
     # end
   end
 
-  def convert_account_in(account, currency_code)
-    if (account.currency_code == currency_code)
-      return account.amount
-    else
-      return Concurrency.convert(account.amount, account.currency_code, currency_code)
-    end
-  end
+  # def convert_account_in(account, currency_code)
+  #   if (account.currency_code == currency_code)
+  #     return account.amount
+  #   else
+  #     return Concurrency.convert(account.amount, account.currency_code, currency_code)
+  #   end
+  # end
 
-  def sum_stables
-    UserStableAccount.all.sum(:amount)
-  end
+  # def sum_stables
+  #   UserStableAccount.all.sum(:amount)
+  # end
 
-  def getprice(currency_code)
-    fiat_accounts = IncFiatAccount.all
-    value = 0.0
-    fiat_accounts.each do |fiat_account|
-      value += convert_account_in(fiat_account, currency_code)
-    end
-    all = sum_stables
-    return (value / sum_stables)
-    # GetStablePricesService.new(current_user, currency_code).call
-    # current_user.update(should_recalc: false)
-    # redirect_to results_path
-  end
+  # def getprice(currency_code)
+  #   fiat_accounts = IncFiatAccount.all
+  #   value = 0.0
+  #   fiat_accounts.each do |fiat_account|
+  #     value += convert_account_in(fiat_account, currency_code)
+  #   end
+  #   all = sum_stables
+  #   return (value / sum_stables)
+  #   # GetStablePricesService.new(current_user, currency_code).call
+  #   # current_user.update(should_recalc: false)
+  #   # redirect_to results_path
+  # end
 
-  def self.buy_stable(fiat_amount, options = {})
-    @user = options[:user] || current_user
+  def buy_stable(fiat_amount, options = {})
+    @user = current_user
     fiat_amount = fiat_amount.to_f
     currency_code = options[:currency_code]
     user_fiat_account = UserFiatAccount.where(user: @user, currency_code: currency_code)[0]
@@ -76,7 +76,9 @@ class TransactionsController < ApplicationController
         user_fiat_account.update_attribute('amount', user_fiat_account.amount-fiat_amount)
         inc_fiat_account.update_attribute('amount', inc_fiat_account.amount+fiat_amount)
         user_stable_account.update_attribute('amount', user_stable_account.amount+amount_stable)
-        redirect_to @tr, notice: 'Transaction was successfully created.'
+        redirect_to home_path, notice: 'Transaction was successfully created.'
+      else
+        redirect_to home_path, notice: 'Transaction failed.'
       end
     end
   end

@@ -1,57 +1,108 @@
-<p id="notice"><%= notice %></p>
-<% currency_pref = current_user.present? ? current_user.currency_pref : "USD" %>
-<h2>Stable Price in <%= currency_pref %>: <%= "%g" % ("%.4f" % (Transaction.getprice(currency_pref))) %></h2>
-<h2>STABLE Bank Accounts Monitoring</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Currency</th>
-      <th>Amount</th>
-      <th>Bank</th>
-    </tr>
-  </thead>
+ <div class="container">
+  <p id="notice"><%= notice %></p>
+  <% currency_pref = current_user.present? ? (current_user.currency_pref.present? ? current_user.currency_pref : "USD") : "USD" %>
 
-  <tbody>
-    <% IncFiatAccount.all.each do |account| %>
-      <tr>
-        <td><%= account.currency_code %></td>
-        <td><%= "%g" % ("%.2f" % account.amount) %></td>
-        <td><%= account.bank %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="row price-info">
+    <div class="price-card card-presentation col-xs-offset-2 col-xs-8 col-sm-offset-1 col-sm-6">
+      <h4>Price of 1 STABLE in <%= currency_pref %>: <strong> <%= "%g" % ("%.4f" % (Transaction.getprice(currency_pref))) %></strong></h4>
+      <h4>Total amount of STABLE in circulation: <strong><%= number_to_currency_br(UserStableAccount.all.sum(:amount)) %></strong></h4>
+    </div>
+  </div>
 
-<h2>Last Network Transactions</h2>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 container card-presentation">
+      <div>
+        <h3>Currency repartition in %</h3>
+      </div>
+      <%= pie_chart charts_cur_transactions_path %>
+    </div>
+    <div class="col-xs-12 col-sm-6 container card-presentation">
+      <h3>STABLE Bank Accounts Monitoring</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="t-left">Bank</th>
+            <th>Amount</th>
+            <th>Currency</th>
+          </tr>
+        </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Amount</th>
-      <th>Currency</th>
-      <th>Rate</th>
-      <th>Type</th>
-      <th>STABLES</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
+        <tbody>
+          <% IncFiatAccount.all.each do |account| %>
+            <tr>
+              <td class="t-left"><%= account.bank %></td>
+              <td><%= number_to_currency_br(account.amount) %></td>
+              <td><%= account.currency_code %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <tbody>
-    <% Transaction.all.each do |transaction| %>
-      <tr>
-        <td><%= transaction.user_fiat_account.user.name %></td>
-        <td><%= "%g" % ("%.2f" % transaction.amount_fiat) %></td>
-        <td><%= transaction.currency_code %></td>
-        <td><%= "%g" % ("%.4f" % transaction.exchange_rate) %></td>
-        <td><%= transaction.typetr %></td>
-        <td><%= "%g" % ("%.2f" % transaction.amount_stable) %></td>
-        <td><%= link_to 'Show', transaction %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 container card-presentation">
+      <div>
+        <h3>Transaction volume</h3>
+      </div>
+      <%= line_chart charts_new_transactions_path %>
+    </div>
+    <div class="col-xs-12 col-sm-6 container card-presentation">
+      <div>
+        <h3>Last Network Transactions</h3>
+      </div>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Amount</th>
+              <th>Currency</th>
+              <th>Rate</th>
+              <th>Type</th>
+              <th>STABLES</th>
+            </tr>
+          </thead>
 
-<br>
+          <tbody>
+            <% Transaction.all.last(12).each do |transaction| %>
+              <tr>
+                <td class="t-left"><%= transaction.user_fiat_account.user.name %></td>
+                <td><%= number_to_currency_br(transaction.amount_fiat) %></td>
+                <td class="t-left"><%= transaction.currency_code %></td>
+                <td><%= "%g" % ("%.4f" % transaction.exchange_rate) %></td>
+                <td><%= transaction.typetr %></td>
+                <td><%= number_to_currency_br(transaction.amount_stable) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-<%= link_to 'New Transaction', new_transaction_path, class: "btn-block" %>
+  <br>
+  <div class="row my-account-section">
+    <h2 class="btn my-account-dividor btn-block">Your Accounts</h2>
+    <div class="container price-card card-presentation col-xs-offset-2 col-xs-8 col-sm-offset-1 col-sm-6">
+      <div class="row">
+        <div class="current-accounts">
+          <h2>Your FIAT accounts</h2>
+          <% UserFiatAccount.where(user: current_user).each do |account| %>
+          <%= account.currency_code %> <%= account.amount %> <br>
+          <% end %>
+        </div>
+        <%= render 'transactions/form', transaction: @transaction, locals: {typetr: "BUY"} %>
+      </div>
+
+      <div class="row">
+        <div class="current-accounts">
+          <h2>Your STABLE account</h2>
+          <% stable_account = UserStableAccount.where(user: current_user)[0] %>
+          <p>STABLE</p> <%= stable_account.amount %> <br>
+        </div>
+        <%= render 'transactions/form', transaction: @transaction, locals: {typetr: "SELL"} %>
+      </div>
+    </div>
+  </div>
+</div>

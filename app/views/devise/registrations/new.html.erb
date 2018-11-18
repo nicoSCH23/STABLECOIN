@@ -1,25 +1,27 @@
-<h2>Sign up</h2>
+<%= image_tag 'logo.png', id: "login-img" %>
+<% if user_signed_in? %>
+<%= link_to "Check your account", home_path, class: "navbar-wagon-item navbar-wagon-link" %>
+<%= link_to destroy_user_session_path, method: :delete do %>
+  <i class="fa fa-sign-out"></i>  <%= t(".sign_out", default: "Log out") %>
+<% end %>
+<% else %>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= f.error_notification %>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+    <div class="form-inputs">
+      <%#= f.input :email, required: true,:input_html => {:maxlength => 15, :size => 40}%>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true ,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
-  </div>
+      <%= f.input :email, label: false, placeholder: "Email", required: true, autofocus: true, :input_html => {:style => 'width: 250px'} %>
+      <%= f.input :name, label: false, placeholder: "First name?", required: true, autofocus: true, :input_html => {:style => 'width: 250px'} %>
+      <%= f.input :password, label: false, placeholder: "Password", required: true,:input_html => {:style => 'width: 250px'} %>
+      <%#= f.input :password_confirmation, required: true %>
+    </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
+    <div class="form-actions">
+      <%= f.button :submit, class: "btn btn-add btn-small btn-block", id: "sign-up-btn" %>
+    </div>
+  <% end %>
+  <div class="container already-account">
+    <p>Already have an account?</p><%= render "devise/shared/links" %>
   </div>
 <% end %>
-
-<%= render "devise/shared/links" %>

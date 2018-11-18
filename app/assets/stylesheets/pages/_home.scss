@@ -1,1 +1,60 @@
 // Specific CSS for your home-page
+body {
+  background-color: #6FD18A;
+}
+
+table {
+    text-align: right;
+}
+th {
+    text-align: center;
+}
+.t-left{
+  text-align: left;
+}
+.container {
+  align-items: strech;
+}
+.my-account-section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.members-container {
+  li {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.my-account-dividor {
+  background: #049986;
+  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: white;
+  cursor: alias;
+}
+
+#login-img {
+  display: block;
+   margin-left: auto;
+   margin-right: auto;
+   width: 15%;
+}
+
+
