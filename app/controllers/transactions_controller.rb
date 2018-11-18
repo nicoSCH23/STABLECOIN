@@ -24,7 +24,13 @@ class TransactionsController < ApplicationController
   # POST /transactions.json
   def create
     typetr = transaction_params[:typetr]
-    buy_stable(transaction_params[:amount_fiat], options = {currency_code: transaction_params[:currency_code]}) if typetr == "BUY"
+    if typetr == "BUY"
+      buy_stable(transaction_params[:amount_fiat], options = {currency_code: transaction_params[:currency_code]})
+    elsif typetr == "SELL"
+      sell_stable(transaction_params[:amount_stable], options = {currency_code: transaction_params[:currency_code]})
+    else
+      puts "NOT BUY OR SELL"
+    end
     # respond_to do |format|
     #   if @transaction.save
     #     format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
@@ -61,21 +67,20 @@ class TransactionsController < ApplicationController
   #   # redirect_to results_path
   # end
 
-  def buy_stable(fiat_amount, options = {})
-    binding.pry
+  def buy_stable(amount_fiat, options = {})
     @user = current_user
-    fiat_amount = fiat_amount.to_f
+    amount_fiat = amount_fiat.to_f
     currency_code = options[:currency_code]
     user_fiat_account = UserFiatAccount.where(user: @user, currency_code: currency_code)[0]
-    if (user_fiat_account.amount >= fiat_amount)
+    if (user_fiat_account.amount >= amount_fiat)
       exchange_rate = Transaction.getprice(currency_code)
-      amount_stable = (fiat_amount / exchange_rate)
+      amount_stable = (amount_fiat / exchange_rate)
       inc_fiat_account = IncFiatAccount.select{|account| account[:currency_code] == currency_code}[0]
       user_stable_account = UserStableAccount.where(user: @user)[0]
-      @tr = Transaction.new(typetr: "BUY", amount_fiat: fiat_amount, amount_stable: amount_stable, exchange_rate: exchange_rate, currency_code: currency_code, inc_fiat_account: inc_fiat_account, user_fiat_account: user_fiat_account, user_stable_account: user_stable_account)
+      @tr = Transaction.new(typetr: "BUY", amount_fiat: amount_fiat, amount_stable: amount_stable, exchange_rate: exchange_rate, currency_code: currency_code, inc_fiat_account: inc_fiat_account, user_fiat_account: user_fiat_account, user_stable_account: user_stable_account)
       if @tr.save
-        user_fiat_account.update_attribute('amount', user_fiat_account.amount-fiat_amount)
-        inc_fiat_account.update_attribute('amount', inc_fiat_account.amount+fiat_amount)
+        user_fiat_account.update_attribute('amount', user_fiat_account.amount-amount_fiat)
+        inc_fiat_account.update_attribute('amount', inc_fiat_account.amount+amount_fiat)
         user_stable_account.update_attribute('amount', user_stable_account.amount+amount_stable)
         redirect_to home_path, notice: 'Transaction was successfully created.'
       else
@@ -84,7 +89,26 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def sell_stable(currency_code, stable_amount)
+  def sell_stable(amount_stable, options = {})
+    @user = current_user
+    amount_stable = amount_stable.to_f
+    currency_code = options[:currency_code]
+    user_stable_account = UserStableAccount.where(user: @user)[0]
+    if (user_stable_account.amount >= amount_stable)
+      exchange_rate = Transaction.getprice(currency_code)
+      amount_fiat = (amount_stable * exchange_rate)
+      inc_fiat_account = IncFiatAccount.select{|account| account[:currency_code] == currency_code}[0]
+      user_fiat_account = (UserFiatAccount.where(user: @user, currency_code: currency_code).empty? ? UserFiatAccount.create(user: @user, currency_code: currency_code, amount: 0) : (UserFiatAccount.where(user: @user)[0]))
+      @tr = Transaction.new(typetr: "SELL", amount_fiat: amount_fiat, amount_stable: amount_stable, exchange_rate: exchange_rate, currency_code: currency_code, inc_fiat_account: inc_fiat_account, user_fiat_account: user_fiat_account, user_stable_account: user_stable_account)
+      if @tr.save
+        user_fiat_account.update_attribute('amount', user_fiat_account.amount+amount_fiat)
+        inc_fiat_account.update_attribute('amount', inc_fiat_account.amount-amount_fiat)
+        user_stable_account.update_attribute('amount', user_stable_account.amount-amount_stable)
+        redirect_to home_path, notice: 'Transaction was successfully created.'
+      else
+        redirect_to home_path, notice: 'Transaction failed.'
+      end
+    end
   end
 
   private

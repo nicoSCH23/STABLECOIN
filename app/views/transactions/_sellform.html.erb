@@ -4,8 +4,11 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
 
-    <%= f.label :Amount %>
-    <%= f.text_field :amount_stable %>
+    <%= f.text_field :amount_stable, placeholder: "Amount" %>
+    <p> for </p>
+    <% @fiat_accounts = UserFiatAccount.all.map{|acc| acc.currency_code}.uniq! %>
+    <%= f.input :currency_code, :label => false, as: :radio_buttons, collection: @fiat_accounts, checked: @fiat_accounts[0]
+    %>
     <%= f.input :typetr, as: :hidden, :required => true, :input_html => { :value => "SELL" } %>
   </div>
 

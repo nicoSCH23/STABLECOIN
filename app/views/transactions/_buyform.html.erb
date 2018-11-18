@@ -4,15 +4,14 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-inputs">
 
-    <%= f.label :Currency %>
-    <%= f.input :currency_code, as: :radio_buttons, collection: UserFiatAccount.where(user: current_user).map{|acc| acc.currency_code}
+    <% @fiat_accounts = UserFiatAccount.where(user: current_user).map{|acc| acc.currency_code} %>
+    <%= f.input :currency_code, :label => false, as: :radio_buttons, collection: @fiat_accounts, checked: @fiat_accounts[0]
     %>
-    <%= f.label :Amount %>
-    <%= f.text_field :amount_fiat %>
+    <%= f.text_field :amount_fiat, placeholder: "Amount" %>
     <%= f.input :typetr, as: :hidden, :required => true, :input_html => { :value => "BUY" } %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "BUY STABLES", class: "btn-add btn-small btn-block" %>
+      <%= f.button :submit, "BUY STABLES", class: "btn-add btn-small btn-block" %>
   </div>
 <% end %>

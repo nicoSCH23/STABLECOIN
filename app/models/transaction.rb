@@ -19,7 +19,12 @@ class Transaction < ApplicationRecord
     if (fiat_account.currency_code == currency_code)
       account_value = fiat_account.amount
     else
+      begin
       account_value = Concurrency.convert(fiat_account.amount, fiat_account.currency_code, currency_code)
+      rescue
+        puts "I AM BEING RESCUED"
+        retry
+      end
     end
       value += account_value
     end
