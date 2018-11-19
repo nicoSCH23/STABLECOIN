@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-def buy_stable(fiat_amount, options = {})
+def buy_stables(fiat_amount, options = {})
   @user = options[:user]
   fiat_amount = fiat_amount.to_f
   currency_code = options[:currency_code]
@@ -33,7 +33,7 @@ IncFiatAccount.create(bank: "BDO",currency_code: 'PHP', amount: 0.0)
 IncFiatAccount.create(bank: "Croatian National Bank", currency_code: 'HRK', amount: 0.0)
 IncFiatAccount.create(bank: "HSBC", currency_code: 'HKD', amount: 0.0)
 IncFiatAccount.create(bank: "Barclays", currency_code: 'GBP', amount: 0.0)
-IncFiatAccount.create(bank: "FirstBank Nigeria", currency_code: 'NGN', amount: 0.0)
+IncFiatAccount.create(bank: "Moscow Bank", currency_code: 'RUB', amount: 0.0)
 IncFiatAccount.create(bank: "Banco Itaú", currency_code: 'BRL', amount: 0.0)
 # IncFiatAccount.create(currency_code: 'ZAR', amount: rand(1600000...16000000).to_f)
 # IncFiatAccount.create(currency_code: 'CAD', amount: rand(100000...1000000).to_f)
@@ -45,7 +45,7 @@ emails = [['Geraldine','geraldine@toto.fr', "EUR"],
   ['Marko','marko@toto.fr', 'HRK'],
   ['Zao','zao@toto.fr', 'HKD'],
   ['Elizabeth','elizabeth@toto.fr', 'GBP'],
-  ['Onyeka','onyeka@toto.fr', 'NGN'],
+  ['Onyeka','onyeka@toto.fr', 'RUB'],
   ['Patricia','patricia@toto.fr', 'BRL']
 ]
 emails.each do |email|
@@ -67,7 +67,7 @@ UserFiatAccount.create(user: users[2], currency_code: 'PHP', amount: rand(600000
 UserFiatAccount.create(user: users[3], currency_code: 'HRK', amount: rand(700000...7000000).to_f)
 UserFiatAccount.create(user: users[4], currency_code: 'HKD', amount: rand(900000...9000000).to_f)
 UserFiatAccount.create(user: users[5], currency_code: 'GBP', amount: rand(90000...1000000).to_f)
-UserFiatAccount.create(user: users[6], currency_code: 'NGN', amount: rand(41500000...415000000).to_f)
+UserFiatAccount.create(user: users[6], currency_code: 'RUB', amount: rand(20000000...200000000).to_f)
 UserFiatAccount.create(user: users[7], currency_code: 'BRL', amount: rand(400000...4000000).to_f)
 
 puts "finished"
@@ -92,6 +92,6 @@ puts "1st transaction done!"
 
 puts "generating transactions..."
 UserFiatAccount.all.each do |account|
-  buy_stable(0.1 * account.amount, {currency_code: account.currency_code, user: account.user})
+  buy_stables(0.1 * account.amount, {currency_code: account.currency_code, user: account.user})
 end
 puts "finished!"

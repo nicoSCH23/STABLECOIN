@@ -13,15 +13,23 @@ class Transaction < ApplicationRecord
   validates :user_stable_account_id, presence: true, allow_blank: false
 
   def self.getprice(currency_code)
+    url = 'https://api.exchangeratesapi.io/latest'
+    exchange_serialized = open(url).read
+    exchange_rates = JSON.parse(exchange_serialized)
+
     fiat_accounts = IncFiatAccount.all
     value = 0.0
     fiat_accounts.each do |fiat_account|
     if (fiat_account.currency_code == currency_code)
       account_value = fiat_account.amount
+    elsif (fiat_account.currency_code == "EUR")
+      account_value = fiat_account.amount * exchange_rates["rates"][currency_code]
+    elsif (currency_code == "EUR")
+      account_value = (fiat_account.amount / exchange_rates["rates"][fiat_account.currency_code])
     else
       begin
       puts "for currency: #{fiat_account.currency_code}"
-      account_value = Concurrency.convert(fiat_account.amount, fiat_account.currency_code, currency_code)
+      account_value = (fiat_account.amount / exchange_rates["rates"][fiat_account.currency_code]) * exchange_rates["rates"][currency_code]
       puts "account value=#{account_value}"
       rescue
         puts "I AM BEING RESCUED"

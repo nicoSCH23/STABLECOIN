@@ -20,8 +20,6 @@ class TransactionsController < ApplicationController
   def edit
   end
 
-  # POST /transactions
-  # POST /transactions.json
   def create
     typetr = transaction_params[:typetr]
     if typetr == "BUY"
@@ -31,41 +29,7 @@ class TransactionsController < ApplicationController
     else
       puts "NOT BUY OR SELL"
     end
-    # respond_to do |format|
-    #   if @transaction.save
-    #     format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
-    #     format.json { render :show, status: :created, location: @transaction }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @transaction.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end
-
-  # def convert_account_in(account, currency_code)
-  #   if (account.currency_code == currency_code)
-  #     return account.amount
-  #   else
-  #     return Concurrency.convert(account.amount, account.currency_code, currency_code)
-  #   end
-  # end
-
-  # def sum_stables
-  #   UserStableAccount.all.sum(:amount)
-  # end
-
-  # def getprice(currency_code)
-  #   fiat_accounts = IncFiatAccount.all
-  #   value = 0.0
-  #   fiat_accounts.each do |fiat_account|
-  #     value += convert_account_in(fiat_account, currency_code)
-  #   end
-  #   all = sum_stables
-  #   return (value / sum_stables)
-  #   # GetStablePricesService.new(current_user, currency_code).call
-  #   # current_user.update(should_recalc: false)
-  #   # redirect_to results_path
-  # end
 
   def buy_stable(amount_fiat, options = {})
     @user = current_user

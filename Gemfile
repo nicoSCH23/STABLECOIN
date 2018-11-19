@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 ruby '2.4.4'
 
 gem 'eu_central_bank'
+gem 'money-open-exchange-rates'
+gem 'money-rails'
 gem 'concurrency'
 gem 'chartkick'
 gem 'groupdate'

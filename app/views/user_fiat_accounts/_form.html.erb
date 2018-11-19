@@ -4,7 +4,7 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <% @currencies = ["EUR", "USD", "PHP", "HRK", "HKD", "GBP", "NGN", "BRL", "EUR"] %>
+    <% @currencies = ["EUR", "USD", "PHP", "HRK", "HKD", "GBP", "RUB", "BRL", "EUR"] %>
     <%= f.input :currency_code, label: "Wire money in your wallet", as: :select, collection: @currencies,  wrapper: :vertical_collection_inline, selected: @currencies[0] %>
     <%= f.text_field :amount, placeholder: "Amount" %>
   </div>
